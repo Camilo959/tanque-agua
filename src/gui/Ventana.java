@@ -1,15 +1,12 @@
 package gui;
 
 import modelo.Controlador;
-import modelo.Manguera;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class Ventana extends JFrame {
 
     private Container panel;
-
 
     private JTextField entrada;
     private JTextField volumen;
@@ -35,22 +32,15 @@ public class Ventana extends JFrame {
         L_volumen.setBounds(120,10,100,30);
         L_salida.setBounds(240,10,100,30);
 
-        // fila 1
         panel.add(L_entrada);
         panel.add(L_volumen);
         panel.add(L_salida);
 
-
-        // fila 2
-
         entrada = new JTextField("500");
         entrada.setBounds(10,50,100,30);
 
-
-
         volumen = new JTextField("");
         volumen.setBounds(120,50,100,30);
-
 
         salida = new JTextField("500");
         salida.setBounds(240,50,100,30);
@@ -59,7 +49,6 @@ public class Ventana extends JFrame {
         panel.add(volumen);
         panel.add(salida);
 
-        // fila 3
         btnEntrada = new JButton("Abrir");
 
         btnVolumen = new JButton("Actualizar");
@@ -91,9 +80,6 @@ public class Ventana extends JFrame {
             Controlador.moverManguera("Vaciar", btnSalida, salida);
         });
 
-
     // controlador despacha eventos 
-
-
     }
 }
