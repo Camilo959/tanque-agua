@@ -1,5 +1,6 @@
 package gui;
 
+import modelo.Controlador;
 import modelo.Manguera;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 public class Ventana extends JFrame {
 
     private Container panel;
-    private Manguera llena;
+
 
     private JTextField entrada;
     private JTextField volumen;
@@ -20,10 +21,9 @@ public class Ventana extends JFrame {
 
     private JProgressBar barra;
 
-
     public Ventana() {
         super("Lab: Deposito de agua");
-        setBounds(300,20,360,200);
+        setBounds(300,20,360,400);
         setLayout(null);
         panel = getContentPane();
 
@@ -43,7 +43,7 @@ public class Ventana extends JFrame {
 
         // fila 2
 
-        entrada = new JTextField("");
+        entrada = new JTextField("500");
         entrada.setBounds(10,50,100,30);
 
 
@@ -52,7 +52,7 @@ public class Ventana extends JFrame {
         volumen.setBounds(120,50,100,30);
 
 
-        salida = new JTextField("");
+        salida = new JTextField("500");
         salida.setBounds(240,50,100,30);
 
         panel.add(entrada);
@@ -60,10 +60,10 @@ public class Ventana extends JFrame {
         panel.add(salida);
 
         // fila 3
-        btnEntrada = new JButton("Abrir/Cerrar");
+        btnEntrada = new JButton("Abrir");
 
         btnVolumen = new JButton("Actualizar");
-        btnSalida = new JButton("Abrir/Cerrar");
+        btnSalida = new JButton("Abrir");
 
         btnEntrada.setBounds(10,95,100,30);
         btnVolumen.setBounds(120,95,100,30);
@@ -74,25 +74,25 @@ public class Ventana extends JFrame {
         panel.add(btnSalida);
 
         barra = new JProgressBar(0,100);
-        barra.setBounds(10,130,320,20);
+        barra.setValue(0);
+        barra.setBounds(10,130,320,220);
         barra.setStringPainted(true);
-        barra.setValue(50);
+        barra.setOrientation(1); // Vertical o horizontal
+        barra.setForeground(new Color(10, 92, 169));
         panel.add(barra);
 
-        llena = new Manguera("Entrada",barra); // es un subproceso concurrente, que va llenando la barra
+        Controlador.iniciarMangueras(barra);
+
         btnEntrada.addActionListener(actionEvent -> {
-
-            if(llena.getState() == Thread.State.RUNNABLE) {
-                try {
-                    llena.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                llena.start();
-            }
-
+            Controlador.moverManguera("Llena", btnEntrada, entrada );
         });
+
+        btnSalida.addActionListener(actionEvent -> {
+            Controlador.moverManguera("Vaciar", btnSalida, salida);
+        });
+
+
+    // controlador despacha eventos 
 
 
     }
